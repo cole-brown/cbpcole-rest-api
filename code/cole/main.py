@@ -2,7 +2,9 @@
 # coding: utf-8
 
 '''
-Run tests on cole.
+Run cole (Cbpc (Clostra Backend Programming Challenge) Of Logging End-users).
+
+Serves REST API on provided '--host'/'--port' parameters.
 '''
 
 # -----------------------------------------------------------------------------
@@ -11,17 +13,20 @@ Run tests on cole.
 
 from typing import Optional, Type, NewType, Dict, Tuple, TextIO
 
-from datetime import date, datetime, time, timedelta
 import argparse
-import math
+import logging
 import os
-import random
 import sys
+
+from cole import server
 
 
 # -----------------------------------------------------------------------------
 # Constants & Variables
 # -----------------------------------------------------------------------------
+
+LOG_NAME_DEFAULT = 'cole.server'
+LOG_LEVEL_DEFAULT = logging.DEBUG
 
 
 # -----------------------------------------------------------------------------
@@ -108,17 +113,44 @@ def _args() -> argparse.Namespace:
     return args
 
 
+def make_logger(name: str, level: int) -> logging.Logger:
+    '''
+    Set up the logger.
+    '''
+    # Create formatter.
+    # formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+    # Create handler
+    handler = logging.StreamHandler()
+    handler.setLevel(level)
+    # handler.setFormatter(formatter)
+
+    # Create logger.
+    _logger = logging.getLogger(name)
+    _logger.setLevel(level)
+    _logger.addHandler(handler)
+
+    return _logger
+
 # -----------------------------------test--------------------------------------
 # --               Run Tests on 'CBPC of Logging End-users'.                 --
 # -----------------------------------------------------------------------------
 
 if __name__ == '__main__':
     # ------------------------------
-    #  Parse command line.
+    # Set-Up
+    # ------------------------------
+    _logger = make_logger(LOG_NAME_DEFAULT,
+                          LOG_LEVEL_DEFAULT)
+
+    # ------------------------------
+    # Parse command line.
     # ------------------------------
     args = _args()
 
     # ------------------------------
     # Run backend.
     # ------------------------------
-    print("TODO: run tests.")
+    _logger.debug("Running server at: %s:%d", args.host, args.port)
+    # server.run(host=args.host,
+    #            port=args.port)
