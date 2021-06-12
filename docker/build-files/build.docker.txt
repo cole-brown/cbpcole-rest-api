@@ -35,9 +35,8 @@ RUN mkdir -p $RUN_ROOT_DIR
 # Apt-Get Step!
 #-------------------------------------------------------------------------------
 
-# Do I need anything from apt?
 # RUN apt-get update \
-#     && apt-get install -y git
+#     && apt-get install -y net-tools  # for 'ifconfig'
 
 
 #-------------------------------------------------------------------------------

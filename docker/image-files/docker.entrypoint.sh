@@ -12,7 +12,7 @@ source "${_test_dir}/_print.sh"
 # set options:
 #-------------------------------------------------------------------------------
 # Set these after imports so they don't get accidentally wiped.
-# 
+#
 #   -e:          exit on first non-zero exit/return code
 #   -u:          do not allow unset variables (error on them)
 #                  - Don't set this; want to be more permissible in the entrypoint.
@@ -147,11 +147,17 @@ run_tester() {
 # Install our source.
 run_pip_install
 
+# Is this our docker ip?
+ip_addr=$(ip route get 1.1.1.1 | awk '/via/{print $3}')
+echo
+echo "Docker IP: $ip_addr"
+
 # Switch to code's dir since we almost always want to be there.
 cd "$CODE_ROOT_DIR"
 
 # Run whatever user called. Do it this way instead of 'exec "$@"' as we can
 # call functions this way.
+echo
 TARGET="$1"
 shift
 "$TARGET" "$@"
