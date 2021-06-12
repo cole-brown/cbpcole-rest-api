@@ -122,9 +122,9 @@ The system should be robust to restarts, but it is not necessary to retain data 
 Can't use "60 days" to figure out anything about the "Monthly Endpoint" paradox.
   - Probably just testing data range combined w/ reasonable design requirement allowance.
 
-* ├───────┤ <<< Design >>>
-CLOSED: [2021-06-12 Sat 11:10]
+* ├INFO───┤ <<< Design >>>
 :LOGBOOK:
+- State "├INFO───┤"  from "├───────┤"  [2021-06-12 Sat 11:21]
 - State "├───────┤"  from              [2021-06-12 Sat 11:10]
 :END:
 
@@ -149,8 +149,35 @@ CBPC is a bit of a tongue-twister.
 cole: CBPC of Logging End-users
   - Recursive backronyms!
 
-* Backend
+* Docker
+
+Steal docker scripts from veredi or rust-book?
+  - rust-book uses a from-scratch, so I think I need veredi's
+    + Veredi is python code w/ python docker container.
+
+Alternative:
+  - venv, but eh... Docker works good.
+
+* scripts
+
+Bash:
+  - [X] Steal the print/debug bash script helpers from my veredi-docker repo.
+  - [X] Implement mockup of:
+    + [X] ./cole
+    + [X] ./test
+
+Python:
+  - Start ./test's __main__.
+    + argparser that can be used for ./cole too.
+      - Copy/paste, no need/time to bother with common lib (right now).
+
+* Python __main__ files
+
+- [X] Steal argparse stuff from my 'tryst' repo.
+- [X] Steal HelpfulErrorParser stuff from my 'tryst' repo.
+
+* Backend - ./cole
 
 
 
-* Test
+* Test - ./test
