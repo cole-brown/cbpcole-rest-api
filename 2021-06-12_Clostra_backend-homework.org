@@ -1,0 +1,156 @@
+#+TITLE:       2021-06-12_Clostra_Backend-Homework
+#+AUTHOR:      Cole Brown
+#+EMAIL:       cole@brown.dev
+#+DATE:        [2021-06-12]
+
+
+D:\vault\programmer\job-tests\2021-06-12_Clostra
+/mnt/d/vault/programmer/job-tests/2021-06-12_Clostra
+
+* ├INFO───┤ Email
+:LOGBOOK:
+- State "├INFO───┤"  from              [2021-06-12 Sat 11:10]
+:END:
+
+Cole,
+
+I very much enjoyed our conversation earlier this week. Here is our backend programming challenge. Please get back to me with a response within 48 hours. I look forward to seeing what you create!
+
+-- ben
+
+Clostra Backend Programming Challenge
+
+Write a simple analytics service that accepts analytics reports as GET requests of the form:
+
+/collect?cid=<UUID>
+
+where cid is a unique client ID. The response should be 200 OK with an empty body.
+
+The service should maintain a count of daily active users (unique cid's seen) for each GMT day.
+
+The service should also support queries of the form:
+
+/daily_uniques?d=<ISO 8601 date>
+
+which should return the number of unique users seen for the given GMT day;
+
+and of the form:
+
+/monthly_uniques?d=<ISO 8601 date>
+
+which should return the number of unique users seen in the month prior to and including the given GMT day.
+
+The unique user counts may be approximate rather than precise if you can reason about accuracy.
+
+For testing purposes, the collect endpoint should accept an optional query parameter d=<UNIX timestamp>, which can be used to override the timestamp associated with a given analytics report.
+
+The system should be robust to restarts, but it is not necessary to retain data or support queries for dates older than 60 days.
+
+Design for performance on a single machine and low operational cost.
+
+--
+Ben Teitelbaum
+Head of Engineering
+Clostra
+ben@clostra.com
+https://clostra.com
+
+
+* ├INFO───┤ Requirements
+:LOGBOOK:
+- State "├INFO───┤"  from              [2021-06-12 Sat 11:10]
+:END:
+** Store:
+
+Persistent.
+
+UUID (hash)set per UTC date?
+  - Set of unique uuids per UTC date is desired output for queries.
+
+** REST APIs
+
+*** /collect?cid=<UUID>&d=<UNIX-timestamp>
+
+Return:
+  - 200 OK
+  - Empty
+
+Store:
+  - UUID, utcnow()'s date.
+    + into the set of uniques per day, or as a row that can be processed as such.
+
+Why Unix here and not on the getters as well?
+
+*** /daily_uniques?d=<ISO-8601>
+
+Should return the number of unique users seen for the given GMT day.
+
+**** What is "Should return"?
+
+  - as... a body of only that number, I'm assuming?
+
+
+*** /monthly_uniques?d=<ISO-8601>
+
+Which should return the number of unique users seen in the month prior to and including the given GMT day.
+
+
+**** What is "The month prior to and including"?
+
+To start of with, that's not a month.
+
+"The month prior to" and then also "the month including"?
+  - That's between 1.x and 2 months.
+
+"The rolling 30 day window"?
+  - That should have been worded as such.
+    + But nothing is ever worded 100% unambigiously.
+
+"From YYYY-MM-01 to YYYY-MM-DD"?
+  - That's between 0.x and 1 month.
+    + Is closest to an actual calendar month.
+
+
+**** What is "Should return"?
+
+  - as... a body of only that number, I'm assuming?
+
+** Data Persistence
+
+The system should be robust to restarts, but it is not necessary to retain data or support queries for dates older than 60 days.
+
+Can't use "60 days" to figure out anything about the "Monthly Endpoint" paradox.
+  - Probably just testing data range combined w/ reasonable design requirement allowance.
+
+* ├───────┤ <<< Design >>>
+CLOSED: [2021-06-12 Sat 11:10]
+:LOGBOOK:
+- State "├───────┤"  from              [2021-06-12 Sat 11:10]
+:END:
+
+backend:
+  - Python 3
+  - sqlite3
+
+Test:
+  - Python 3 test script/cli?
+
+host at:
+  - localhost
+  - port 80
+
+
+* Name
+
+"Clostra Backend Programming Challenge" is a bit loquatious.
+
+CBPC is a bit of a tongue-twister.
+
+cole: CBPC of Logging End-users
+  - Recursive backronyms!
+
+* Backend
+
+
+
+* Test
