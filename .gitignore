@@ -176,6 +176,8 @@ cython_debug/
 code/pip_install_-e.org
 code/setup.py
 
+# Flask runtime files:
+code/instance/*
 
 #                                  ---END!---                                  #
 #----------------------- Custom, Actual, For-This-Repo ------------------------#

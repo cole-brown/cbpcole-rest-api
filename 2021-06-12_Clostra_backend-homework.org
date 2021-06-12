@@ -199,3 +199,10 @@ Docker container is accessed at... 'localhost'.
 
 e.g. hello endpoint would be:
   http://localhost:8080/hello
+
+
+** Create or reset database
+
+command: ~flask init-db~
+
+Or via docker aliases: doc-init

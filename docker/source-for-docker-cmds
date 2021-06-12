@@ -20,6 +20,15 @@ _run_volume_target='/run/cole'
 # Aliases
 # ------------------------------------------------------------------------------
 
+echo 'Giving you `doc-init` alias...'
+alias doc-init="docker run --rm --name $_cole_name -it \
+      -p 8080:8080 \
+      -v ${_code_volume_source}:${_code_volume_target} \
+      -v ${_run_volume_source}:${_run_volume_target} \
+      ${_cole_name}:latest \
+      init_server"
+echo '  Done.'
+
 echo 'Giving you `doc-cole` alias...'
 alias doc-cole="docker run --rm --name $_cole_name -it \
       -p 8080:8080 \

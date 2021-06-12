@@ -92,6 +92,29 @@ run_pip_install() {
 }
 
 
+init_server() {
+    pushd $CODE_ROOT_DIR >/dev/null
+
+    # ------------------------------
+    # Just comment out if not desired:
+    # ------------------------------
+    local _title="cole"
+    local _subtitle="(Initialize cole's database.)"
+    title_unnecessarily_pretty "$_title" "$_subtitle"
+
+    # ------------------------------
+    # Run init function.
+    # ------------------------------
+    # Flask expect some of these to be set in the environment:
+    #  - FLASK_APP
+    #  - FLASK_ENV
+    /usr/bin/env python3 \
+        -m flask init-db
+
+    popd >/dev/null
+}
+
+
 run_server() {
     pushd $CODE_ROOT_DIR >/dev/null
 
