@@ -7,6 +7,11 @@
 D:\vault\programmer\job-tests\2021-06-12_Clostra
 /mnt/d/vault/programmer/job-tests/2021-06-12_Clostra
 
+* Environment
+
+Ubuntu 20.04 via WSL on Windows 10
+
+
 * ├INFO───┤ Email
 :LOGBOOK:
 - State "├INFO───┤"  from              [2021-06-12 Sat 11:10]
@@ -181,3 +186,9 @@ Python:
 
 
 * Test - ./test
+
+* Implement Docker Container(s) and Scripts
+
+Steal stuff from veredi, etc for Docker build, run, etc.
+
+Check in when working.

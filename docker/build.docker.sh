@@ -9,7 +9,7 @@
 set -euo pipefail
 
 # Get our parent dir so we can figure out stuff is.
-_build_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+_this_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 # ------------------------------------------------------------------------------
 # Imports
@@ -23,8 +23,7 @@ _build_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # ------------------------------
 # Name & Version
 # ------------------------------
-_server_name='cole-clostra-homework-server'
-_tester_name='cole-clostra-homework-test'
+_container_name='cole-clostra-homework'
 _version='latest'
 
 
@@ -33,9 +32,8 @@ _version='latest'
 # ------------------------------------------------------------------------------
 
 echo "────────────────────────────────────────────────────────────────────────────────"
-echo "Build '$_version' Docker containers for:"
-echo "  - $_server_name"
-echo "  - $_tester_name"
+echo "Build '$_version' Docker container for:"
+echo "  - $_container_name"
 echo "────────────────────────────────────────────────────────────────────────────────"
 
 
@@ -50,8 +48,8 @@ indent() { sed 's/^/  /'; }
 # Set-Up
 # ------------------------------------------------------------------------------
 
-# Down one and into the code.
-_code_dir="${_build_dir}/../code"
+# Want access to 'code' and 'run' dirs.
+_build_dir="${_this_dir}/.."
 
 
 # ------------------------------
@@ -85,7 +83,7 @@ build_container() {
     # Shift off container/version - rest will be passed to docker.
     shift 2
 
-    # Building with the currend dir (hopefully teh code folder) as context.
+    # Building with the currend dir as context.
     _build_context_dir=$PWD
 
     # Print start message.
@@ -99,14 +97,19 @@ build_container() {
     echo "    docker build \\"
     echo "      -t ${_container}:latest \\"
     echo "      -t ${_container}:${_version} \\"
-    echo "      -f build-files/build.docker.txt \\"
+    echo "      -f docker/build-files/build.docker.txt \\"
     echo "      $@ \\"
     echo "      ${_build_context_dir}"
     echo "  ────────────────────────────────────────────────────────"
     echo
 
     # Do the actual build.
-    docker build -t ${_container}:latest -t ${_container}:${_version} -f build-files/build.docker.txt $@ ${_build_context_dir} # | indent
+    docker build \
+        -t ${_container}:latest \
+        -t ${_container}:${_version} \
+        -f docker/build-files/build.docker.txt \
+        $@ \
+        ${_build_context_dir} # | indent
     echo
     echo "  Done."
     echo "  ────────────────────────────────────────────────────────"
@@ -116,8 +119,7 @@ build_container() {
 # Build both containers.
 # ------------------------------------------------------------------------------
 
-build_container $_server_name $_version $@
-build_container $_tester_name $_version $@
+build_container $_container_name $_version $@
 
 
 # ------------------------------------------------------------------------------
@@ -126,5 +128,5 @@ build_container $_tester_name $_version $@
 
 echo
 echo "────────────────────────────────────────────────────────────────────────────────"
-echo "Builds completed."
+echo "Build completed."
 echo "────────────────────────────────────────────────────────────────────────────────"

@@ -2,7 +2,7 @@
 FROM python:latest
 
 #-------------------------------------------------------------------------------
-# Python Setup
+# Python Set-Up
 #-------------------------------------------------------------------------------
 
 # Forces stdin/stdout to not buffer
@@ -19,12 +19,17 @@ WORKDIR $TEMP_DIR
 
 # Our app directory; can be whatever. Export as var so we can reference
 # in the following commands.
-ENV CODE_ROOT_DIR /srv/
-ENV COLE_ROOT_DIR /srv/cole
-ENV TEST_ROOT_DIR /srv/test
-RUN mkdir -p $COLE_ROOT_DIR
+ENV CODE_ROOT_DIR /srv
+ENV SERVER_ROOT_DIR /srv/cole
+ENV TESTER_ROOT_DIR /srv/tester
+ENV RUN_ROOT_DIR  /run/cole
+
+# Ensure some dirs exist.
 RUN mkdir -p $CODE_ROOT_DIR
-RUN mkdir -p $TEST_ROOT_DIR
+RUN mkdir -p $RUN_ROOT_DIR
+# RUN mkdir -p SERVER_ROOT_DIR
+# RUN mkdir -p $TESTER_ROOT_DIR
+
 
 #-------------------------------------------------------------------------------
 # Apt-Get Step!
@@ -39,7 +44,7 @@ RUN mkdir -p $TEST_ROOT_DIR
 # Install PIP Requirements
 #-------------------------------------------------------------------------------
 
-COPY build-files/build.pip-requirements.txt .
+COPY docker/build-files/build.pip-requirements.txt .
 RUN pip install --no-cache-dir -r build.pip-requirements.txt
 
 
@@ -47,25 +52,30 @@ RUN pip install --no-cache-dir -r build.pip-requirements.txt
 # Install Our Apps
 #-------------------------------------------------------------------------------
 
-WORKDIR $CODE_ROOT_DIR
-# COPY image-files/generated/setup.py .
-# COPY image-files/generated/cole $COLE_CODE_DIR
-# COPY image-files/generated/test $COLE_TEST_DIR
-RUN pip install --no-cache-dir -e .
+# The Bash Scripts.
+WORKDIR $RUN_ROOT_DIR
+# Don't copy - expect them to be mounted as volume.
+# COPY run/* .
+
+# The Python Apps.
+# WORKDIR $CODE_ROOT_DIR
+
+
+#-------------------------------------------------------------------------------
+# Clean-Up
+#-------------------------------------------------------------------------------
 
 WORKDIR $TEMP_DIR
 
-# # ...and now delete our files. They'll come from docker host volume.
-# RUN rm -rf ${COLE_CODE_DIR}/*
-
-# Clean up temp dir too.
+# Clean up temp dir.
 RUN rm -rf ${TEMP_DIR}/*
 
+
 #-------------------------------------------------------------------------------
-# Setup Entry
+# Set-Up Entry
 #-------------------------------------------------------------------------------
 
 # docker.entrypoint.sh and helpers.
-COPY image-files/*.sh /
+COPY docker/image-files/*.sh /
 
 ENTRYPOINT ["/docker.entrypoint.sh"]

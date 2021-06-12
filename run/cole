@@ -90,7 +90,10 @@ cole_run() {
         --port $_port \
         &
     # Save pid to file so we can kill backend.
-    echo $! > "${pid_path}"
+    local _pid=$!
+    echo $_pid > "${pid_path}"
+
+    echo "'cole' server running as pid: $_pid"
 }
 
 
