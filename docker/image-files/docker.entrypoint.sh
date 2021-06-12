@@ -26,8 +26,8 @@ set -euo pipefail
 # Constants & Variables
 # ------------------------------------------------------------------------------
 
-host='localhost' # 127.0.0.1
-port=80
+host='0.0.0.0' # 'localhost' # 127.0.0.1
+port=8080
 
 
 #-------------------------------------------------------------------------------
@@ -114,7 +114,17 @@ run_server() {
     # Run backend.
     # ------------------------------
     # Take over pid 1.
-    exec /usr/bin/env python3 "cole/main.py" \
+    #
+    # Python Script:
+    # exec /usr/bin/env python3 "cole/main.py" \
+    #     --host $_host \
+    #     --port $_port
+    #
+    # Flask expect some of these to be set in the environment:
+    #  - FLASK_APP
+    #  - FLASK_ENV
+    exec /usr/bin/env python3 \
+        -m flask run \
         --host $_host \
         --port $_port
 
@@ -147,10 +157,15 @@ run_tester() {
 # Install our source.
 run_pip_install
 
-# Is this our docker ip?
-ip_addr=$(ip route get 1.1.1.1 | awk '/via/{print $3}')
-echo
-echo "Docker IP: $ip_addr"
+# # Is this our docker ip?
+# ip_addr=$(ip route get 1.1.1.1 | awk '/via/{print $3}')
+# echo
+# echo "Docker IP: $ip_addr"
+# # Default to hosting on the Docker network IP.
+# if [ ! -z "$ip_addr" ]; then
+#     host="$ip_addr"
+# fi
+# Flask didn't like that. I guess just 0.0.0.0.
 
 # Switch to code's dir since we almost always want to be there.
 cd "$CODE_ROOT_DIR"

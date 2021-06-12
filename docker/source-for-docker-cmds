@@ -6,6 +6,7 @@ _cole_docker_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pw
 # Constants & Variables
 # ------------------------------------------------------------------------------
 
+_cole_port=8080
 _cole_name='cole-clostra-homework'
 
 _code_volume_source='${_cole_docker_dir}/../code'
@@ -21,6 +22,7 @@ _run_volume_target='/run/cole'
 
 echo 'Giving you `doc-cole` alias...'
 alias doc-cole="docker run --rm --name $_cole_name -it \
+      -p 8080:8080 \
       -v ${_code_volume_source}:${_code_volume_target} \
       -v ${_run_volume_source}:${_run_volume_target} \
       ${_cole_name}:latest \

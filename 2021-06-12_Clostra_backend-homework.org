@@ -192,3 +192,10 @@ Python:
 Steal stuff from veredi, etc for Docker build, run, etc.
 
 Check in when working.
+
+* Testing
+
+Docker container is accessed at... 'localhost'.
+
+e.g. hello endpoint would be:
+  http://localhost:8080/hello
