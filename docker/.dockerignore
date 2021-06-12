@@ -1,0 +1,4 @@
+# Ignore these files/folders/globs in ADD or COPY steps of Dockerfile.
+.git
+.gitignore
+docker-compose.yml

@@ -1,0 +1,71 @@
+# Base this on the latest official Python 3 image.
+FROM python:latest
+
+#-------------------------------------------------------------------------------
+# Python Setup
+#-------------------------------------------------------------------------------
+
+# Forces stdin/stdout to not buffer
+# (so as not to lose log messages or something if docker container le crash).
+ENV PYTHONUNBUFFERED 1
+
+
+#-------------------------------------------------------------------------------
+# Environment Setup
+#-------------------------------------------------------------------------------
+
+ENV TEMP_DIR /tmp
+WORKDIR $TEMP_DIR
+
+# Our app directory; can be whatever. Export as var so we can reference
+# in the following commands.
+ENV CODE_ROOT_DIR /srv/
+ENV COLE_ROOT_DIR /srv/cole
+ENV TEST_ROOT_DIR /srv/test
+RUN mkdir -p $COLE_ROOT_DIR
+RUN mkdir -p $CODE_ROOT_DIR
+RUN mkdir -p $TEST_ROOT_DIR
+
+#-------------------------------------------------------------------------------
+# Apt-Get Step!
+#-------------------------------------------------------------------------------
+
+# Do I need anything from apt?
+# RUN apt-get update \
+#     && apt-get install -y git
+
+
+#-------------------------------------------------------------------------------
+# Install PIP Requirements
+#-------------------------------------------------------------------------------
+
+COPY build-files/build.pip-requirements.txt .
+RUN pip install --no-cache-dir -r build.pip-requirements.txt
+
+
+#-------------------------------------------------------------------------------
+# Install Our Apps
+#-------------------------------------------------------------------------------
+
+WORKDIR $CODE_ROOT_DIR
+# COPY image-files/generated/setup.py .
+# COPY image-files/generated/cole $COLE_CODE_DIR
+# COPY image-files/generated/test $COLE_TEST_DIR
+RUN pip install --no-cache-dir -e .
+
+WORKDIR $TEMP_DIR
+
+# # ...and now delete our files. They'll come from docker host volume.
+# RUN rm -rf ${COLE_CODE_DIR}/*
+
+# Clean up temp dir too.
+RUN rm -rf ${TEMP_DIR}/*
+
+#-------------------------------------------------------------------------------
+# Setup Entry
+#-------------------------------------------------------------------------------
+
+# docker.entrypoint.sh and helpers.
+COPY image-files/*.sh /
+
+ENTRYPOINT ["/docker.entrypoint.sh"]

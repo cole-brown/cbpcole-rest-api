@@ -1,0 +1,36 @@
+#!/bin/bash
+
+_cole_docker_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# ------------------------------------------------------------------------------
+# Constants & Variables
+# ------------------------------------------------------------------------------
+
+_cole_server_name='cole-clostra-homework-server'
+_cole_server_volume_source='${_cole_docker_dir}/../code/cole'
+_cole_server_volume_target='/srv/cole'
+
+_cole_tester_name='cole-clostra-homework-test'
+_cole_tester_volume_source='${_cole_docker_dir}/../code/test'
+_cole_tester_volume_target='/srv/test'
+
+
+# ------------------------------------------------------------------------------
+# Aliases
+# ------------------------------------------------------------------------------
+
+echo 'Giving you `doc-cole` alias...'
+alias doc-cole="docker run --rm --name $_cole_server_name -it \
+      -v ${_cole_server_volume_source}:${_cole_server_volume_target} \
+      ${_cole_server_name}:latest"
+echo '  Done.'
+
+echo 'Giving you `doc-test` alias...'
+alias doc-test="docker run --rm --name $_cole_tester_name -it \
+      -v ${_cole_tester_volume_source}:${_cole_tester_volume_target} \
+      ${_cole_tester_name}:latest"
+echo '  Done.'
+
+echo 'Giving you `doc-build-both` alias...'
+alias doc-build-both="pushd ${_cole_docker_dir}; ./build.docker.sh; popd"
+echo '  Done.'
