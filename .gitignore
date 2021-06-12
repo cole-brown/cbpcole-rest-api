@@ -172,7 +172,10 @@ cython_debug/
 #----------------------- Custom, Actual, For-This-Repo ------------------------#
 #                                 ---START!---                                 #
 
+# 'pip install -e' files
 code/pip_install_-e.org
+code/setup.py
+
 
 #                                  ---END!---                                  #
 #----------------------- Custom, Actual, For-This-Repo ------------------------#
