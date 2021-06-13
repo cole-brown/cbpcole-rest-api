@@ -336,7 +336,11 @@ Don't just call the GitHub repo 'cole'...
     - cbpcole maybe?
     - cbpcole-rest-api maybe?
 
-* ├TODO───┤ TESTING-OF: /collect?cid=<UUID>&d=<UNIX-timestamp>: Take 02
+* ├DONE───┤ TESTING-OF: /collect?cid=<UUID>&d=<UNIX-timestamp>: Take 02
+CLOSED: [2021-06-13 Sun 15:48]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-13 Sun 15:48]
+:END:
 
 - [X] Find/fix timezone bug.
   - I love timezones.
@@ -360,14 +364,23 @@ Make sure to test all days with known amounts of users in them.
 
 Also test some days with known 0 users.
 
-* ├TODO───┤ TESTING-OF: /monthly_uniques?d=<ISO-8601>: Take 02
+* ├DONE───┤ TESTING-OF: /monthly_uniques?d=<ISO-8601>: Take 02
+CLOSED: [2021-06-13 Sun 15:48]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-13 Sun 15:48]
+:END:
 
-- [ ] Make sure to test all months with known amounts of users in them.
+- [X] Make sure to test all months with known amounts of users in them.
   - Verify received value is correct count of users as per collect.
 
-- [ ] Also test some month with known 0 users.
+- [X] Also test some month with known 0 users.
 
-* Push to GitHub private repo
+
+* ├DONE───┤ Push to GitHub private repo
+CLOSED: [2021-06-13 Sun 15:48]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-13 Sun 15:48]
+:END:
 * ├TODO───┤ README.org/md
 * Push to GitHub private repo
 * Clean up

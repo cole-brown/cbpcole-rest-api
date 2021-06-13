@@ -64,6 +64,11 @@ class TestUsers:
             date(2021,  2,  1):  1,
             date(2021,  3,  1):  1,
 
+            # An entire month with 0 users.
+            date(2021,  4,  1):  0,  # NO USERS!
+            # AND NO USERS IN BETWEEN!
+            date(2021,  4, 30):  0,  # NO USERS!
+
             # 2021-05:           20 total
             #          [01, 05]:  5
             #           10     : 10
@@ -76,7 +81,7 @@ class TestUsers:
             date(2021,  5, 10): 10,
             date(2021,  5, 15):  1,
             date(2021,  5, 20):  1,
-            date(2021,  5, 22):  0, # NO USERS!
+            date(2021,  5, 22):  0,  # NO USERS!
             date(2021,  5, 25):  1,
             date(2021,  5, 30):  1,
             date(2021,  5, 31):  1,
@@ -86,7 +91,7 @@ class TestUsers:
             #          [15, 30]: 20
             date(2021,  6,  1): 10,
             date(2021,  6,  5): 10,
-            date(2021,  6,  7):  0, # NO USERS!
+            date(2021,  6,  7):  0,  # NO USERS!
             date(2021,  6, 10): 10,
             date(2021,  6, 12): 20,
             date(2021,  6, 15):  5,

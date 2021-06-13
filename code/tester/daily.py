@@ -22,7 +22,7 @@ from tester.data import TestUsers
 
 
 # -----------------------------------------------------------------------------
-# Code
+# Test Helpers
 # -----------------------------------------------------------------------------
 
 def _params(timestamp: date) -> Dict[str, str]:
@@ -76,6 +76,10 @@ def _test_date(print_fn: Callable,
                      _params(day),
                      str(users.expected(day)))
 
+
+# -----------------------------------------------------------------------------
+# Pubilc API
+# -----------------------------------------------------------------------------
 
 def test(print_fn: Callable,
          url: str,
