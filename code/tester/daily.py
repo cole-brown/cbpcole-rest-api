@@ -10,7 +10,7 @@ Run tests on cole's '/daily_uniques' endpoint.
 
 from typing import Callable, Dict
 
-from datetime import date, datetime
+from datetime import date
 import requests
 
 from tester.data import TestUsers

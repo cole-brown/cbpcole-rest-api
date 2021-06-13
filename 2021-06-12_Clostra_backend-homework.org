@@ -381,15 +381,26 @@ CLOSED: [2021-06-13 Sun 15:48]
 :LOGBOOK:
 - State "├DONE───┤"  from              [2021-06-13 Sun 15:48]
 :END:
+* Clean up
+
+Clean up:
+  - [X] Find/fix TODOs.
+  - [X] Clean up imports in all files.
+  - [ ] Double check defs for propert typing.
+  - [ ] Double check globals, class/instance vars for proper typing.
+
 * ├TODO───┤ README.org/md
+
 * Push to GitHub private repo
 * Clean up
 
 Clean up:
-  - [ ] Find/fix TODOs.
   - [X] Instructions or no?
     + Probably some made a README headline to track this.
-  - [ ] Clean up imports in all files.
+    + Has its own headline.
+
+  - [ ] Combine functions that are similar?
+
 
 * For beauty's sake:
 

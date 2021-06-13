@@ -8,11 +8,6 @@ Reports of Unique Users Endpoints for REST API.
 # Imports
 # -----------------------------------------------------------------------------
 
-from typing import Optional, Type, NewType, Dict, Tuple, TextIO
-
-import uuid
-import functools
-
 from flask import (
     Blueprint,
     request,
@@ -40,7 +35,7 @@ blueprint = Blueprint('uniques', __name__)
 # -----------------------------------------------------------------------------
 
 @blueprint.route('/daily_uniques')
-def daily_uniques():
+def daily_uniques() -> Response:
     '''
     Endpoint for getting Daily Unique Users count of the given ISO-8601 date.
 
@@ -96,7 +91,7 @@ def daily_uniques():
 
 
 @blueprint.route('/monthly_uniques')
-def monthly_uniques():
+def monthly_uniques() -> Response:
     '''
     Endpoint for getting Monthly Unique Users count of the given ISO-8601 date.
 
@@ -121,10 +116,8 @@ def monthly_uniques():
             request.args.get('d'))
         time_range = UnixEpoch.range_month(iso_date)
 
-    # TODO: change to 'except:', remove re-raise.
-    except Exception:
+    except:
         success = False
-        raise
 
     if not time_range:
         success = False

@@ -8,7 +8,7 @@ Helpers for dealing with timestamps.
 # Imports
 # -----------------------------------------------------------------------------
 
-from typing import Optional, Union, Type, NewType, Dict, Tuple, TextIO
+from typing import Union, Type, Tuple
 
 from datetime import date, datetime, timedelta, timezone
 

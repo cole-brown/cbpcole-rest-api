@@ -7,8 +7,14 @@ Database Setup for Flask.
 # -----------------------------------------------------------------------------
 # Imports
 # -----------------------------------------------------------------------------
+
+from typing import TYPE_CHECKING, Optional
+if TYPE_CHECKING:
+    from flask import Flask
+
 import sqlite3
 import click
+
 from flask import current_app, g
 from flask.cli import with_appcontext
 
@@ -22,7 +28,7 @@ from flask.cli import with_appcontext
 # Flask DB Functions
 # -----------------------------------------------------------------------------
 
-def get_db():
+def get_db() -> sqlite3.Connection:
     '''
     Add our datbase to Flask's magic 'g'.
     '''
@@ -36,7 +42,7 @@ def get_db():
     return g.db
 
 
-def close_db(e=None):
+def close_db(error: Optional[Exception] = None) -> None:
     '''
     Remove our datbase from Flask's magic 'g'.
     '''
@@ -46,7 +52,7 @@ def close_db(e=None):
         db.close()
 
 
-def init_app(app):
+def init_app(app: 'Flask') -> None:
     '''
     Connect our database functions to the Flask `app`.
     '''
@@ -58,7 +64,7 @@ def init_app(app):
 # Init DB from schema file.
 # ------------------------------------------------------------------------------
 
-def init_db():
+def init_db() -> None:
     '''
     Initialize the database according to the schema.
     '''
@@ -70,7 +76,7 @@ def init_db():
 
 @click.command('init-db')
 @with_appcontext
-def init_db_command():
+def init_db_command() -> None:
     '''
     Command to clear the existing data and create new tables.
     '''

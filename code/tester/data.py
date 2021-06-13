@@ -8,7 +8,7 @@ Testing helper for creating/verifying test data.
 # Imports
 # -----------------------------------------------------------------------------
 
-from typing import Optional, Union, Dict, Tuple, List
+from typing import Optional, Union, Tuple, List
 
 from datetime import datetime, date, timedelta, timezone
 import uuid

@@ -10,7 +10,7 @@ Run tests on cole's '/collect' endpoint.
 
 from typing import Optional, Callable, Dict
 
-from datetime import datetime, date, timedelta, timezone
+from datetime import datetime, date, timezone
 import requests
 import uuid
 

@@ -8,10 +8,7 @@ Collection Endpoints for REST API.
 # Imports
 # -----------------------------------------------------------------------------
 
-from typing import Optional, Type, NewType, Dict, Tuple, TextIO
-
 import uuid
-import functools
 
 from flask import (
     Blueprint,
@@ -37,7 +34,7 @@ blueprint = Blueprint('collect', __name__)
 # -----------------------------------------------------------------------------
 
 @blueprint.route('/collect')
-def collect():
+def collect() -> None:
     '''
     Endpoint for collecting `cid` (UUIDs of visitors) for datetime utcnow (or
     `d`, if defined).
@@ -58,11 +55,8 @@ def collect():
             UnixEpoch.parse(
                 request.args.get('d')))
 
-    # TODO: change to 'except:', remove re-raise.
-    # except Exception:
     except:
         success = False
-        # raise
 
     if not cid or not unixtime:
         success = False

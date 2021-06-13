@@ -64,11 +64,4 @@ def create_app(test_config=None):
     from . import uniques
     app.register_blueprint(uniques.blueprint)
 
-    # ------------------------------
-    # TODO: TEST ROUTE - delete!
-    # ------------------------------
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
     return app
