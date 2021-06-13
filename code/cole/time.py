@@ -10,7 +10,7 @@ Helpers for dealing with timestamps.
 
 from typing import Optional, Union, Type, NewType, Dict, Tuple, TextIO
 
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 
 # -----------------------------------------------------------------------------
@@ -75,7 +75,8 @@ class UnixEpoch:
         start = datetime(day.year, day.month, day.day,
                          hour=0,
                          minute=0,
-                         second=0)
+                         second=0,
+                         tzinfo=timezone.utc)
 
         end = start + timedelta(days=1)
 
@@ -95,12 +96,14 @@ class UnixEpoch:
         start = datetime(day.year, day.month, 1,
                          hour=0,
                          minute=0,
-                         second=0)
+                         second=0,
+                         tzinfo=timezone.utc)
 
         end = (datetime(day.year, day.month, day.day,
                         hour=0,
                         minute=0,
-                        second=0)
+                        second=0,
+                        tzinfo=timezone.utc)
                + timedelta(days=1))
 
         return (klass.seconds(start.timestamp()),

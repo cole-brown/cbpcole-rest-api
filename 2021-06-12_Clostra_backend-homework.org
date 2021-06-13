@@ -324,8 +324,10 @@ CLOSED: [2021-06-12 Sat 20:22]
 :END:
 
 
-* ├CURRENT┤ Push to GitHub private repo
+* ├DONE───┤ Push to GitHub private repo
+CLOSED: [2021-06-13 Sun 11:34]
 :LOGBOOK:
+- State "├DONE───┤"  from "├CURRENT┤"  [2021-06-13 Sun 11:34]
 - State "├CURRENT┤"  from "├TODO───┤"  [2021-06-13 Sun 11:30]
 :END:
 
@@ -336,14 +338,22 @@ Don't just call the GitHub repo 'cole'...
 
 * ├TODO───┤ TESTING-OF: /collect?cid=<UUID>&d=<UNIX-timestamp>: Take 02
 
-Add in some tests for repeated UUIDs.
+- [X] Find/fix timezone bug.
+  - I love timezones.
 
-Make test randomly seed a known amount of users into known UTC yyyy-mm-dd.
+- [X] Add in some tests for repeated UUIDs.
+
+- [X] Make test randomly seed a known amount of users into known UTC yyyy-mm-dd.
   - Need known values so we can verify in daily/monthly.
   - A dict of dates to number of users needed?
     + And pass same dict into daily/monthly tests.
 
-* ├TODO───┤ TESTING-OF: /daily_uniques?d=<ISO-8601>: Take 02
+
+* ├DONE───┤ TESTING-OF: /daily_uniques?d=<ISO-8601>: Take 02
+CLOSED: [2021-06-13 Sun 14:48]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-13 Sun 14:48]
+:END:
 
 Make sure to test all days with known amounts of users in them.
   - Verify received value is correct count of users as per collect.
@@ -352,17 +362,21 @@ Also test some days with known 0 users.
 
 * ├TODO───┤ TESTING-OF: /monthly_uniques?d=<ISO-8601>: Take 02
 
-Make sure to test all months with known amounts of users in them.
+- [ ] Make sure to test all months with known amounts of users in them.
   - Verify received value is correct count of users as per collect.
 
-Also test some months with known 0 users.
+- [ ] Also test some month with known 0 users.
 
+* Push to GitHub private repo
+* ├TODO───┤ README.org/md
+* Push to GitHub private repo
 * Clean up
 
 Clean up:
   - [ ] Find/fix TODOs.
-  - [ ] Instructions or no?
-    + Probably no...
+  - [X] Instructions or no?
+    + Probably some made a README headline to track this.
+  - [ ] Clean up imports in all files.
 
 * For beauty's sake:
 
@@ -403,3 +417,5 @@ Change to:
 ├────────────────────────────────────────
 │ [ OK ]
 └────────────────────────────────────────
+
+* Push to GitHub private repo
