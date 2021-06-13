@@ -1,10 +1,34 @@
+# coding: utf-8
+
+'''
+Flask Application for serving `cole` REST API endpoints.
+'''
+
+# -----------------------------------------------------------------------------
+# Imports
+# -----------------------------------------------------------------------------
+
 import os
 
 from flask import Flask
 
 
+# -----------------------------------------------------------------------------
+# Constants
+# -----------------------------------------------------------------------------
+
+
+# -----------------------------------------------------------------------------
+# Code
+# -----------------------------------------------------------------------------
+
 def create_app(test_config=None):
-    # Create and configure the app
+    '''
+    Flask application factory method.
+    '''
+    # ------------------------------
+    # Create and configure the Flask app.
+    # ------------------------------
     app = Flask(__name__,
                 instance_relative_config=True)
     app.config.from_mapping(
@@ -25,11 +49,21 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # Set-up Database
+    # ------------------------------
+    # Set up the Database.
+    # ------------------------------
     from . import db
     db.init_app(app)
 
+    # ------------------------------
+    # Register Blueprints for Routes.
+    # ------------------------------
+    from . import collect
+    app.register_blueprint(collect.blueprint)
+
+    # ------------------------------
     # TODO: TEST ROUTE - delete!
+    # ------------------------------
     @app.route('/hello')
     def hello():
         return 'Hello, World!'

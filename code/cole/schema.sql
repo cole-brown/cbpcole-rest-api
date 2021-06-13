@@ -9,5 +9,5 @@ CREATE TABLE user (
   uuid BLOB UNIQUE NOT NULL,
   -- Does TIMESTAMP work as a datatype for sqlite3?
   -- Docs don't have it but tutorial I'm riffing off of does use it for the sqlite3 db.
-  visit TIMESTAMP NOT NULL
+  visited_at TIMESTAMP NOT NULL
 );

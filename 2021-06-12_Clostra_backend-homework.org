@@ -145,7 +145,10 @@ host at:
   - port 80
 
 
-* Name
+* ├INFO───┤ Name
+:LOGBOOK:
+- State "├INFO───┤"  from              [2021-06-12 Sat 16:53]
+:END:
 
 "Clostra Backend Programming Challenge" is a bit loquatious.
 
@@ -154,7 +157,10 @@ CBPC is a bit of a tongue-twister.
 cole: CBPC of Logging End-users
   - Recursive backronyms!
 
-* Docker
+* ├INFO───┤ Docker
+:LOGBOOK:
+- State "├INFO───┤"  from              [2021-06-12 Sat 16:53]
+:END:
 
 Steal docker scripts from veredi or rust-book?
   - rust-book uses a from-scratch, so I think I need veredi's
@@ -163,37 +169,10 @@ Steal docker scripts from veredi or rust-book?
 Alternative:
   - venv, but eh... Docker works good.
 
-* scripts
-
-Bash:
-  - [X] Steal the print/debug bash script helpers from my veredi-docker repo.
-  - [X] Implement mockup of:
-    + [X] ./cole
-    + [X] ./test
-
-Python:
-  - Start ./test's __main__.
-    + argparser that can be used for ./cole too.
-      - Copy/paste, no need/time to bother with common lib (right now).
-
-* Python __main__ files
-
-- [X] Steal argparse stuff from my 'tryst' repo.
-- [X] Steal HelpfulErrorParser stuff from my 'tryst' repo.
-
-* Backend - ./cole
-
-
-
-* Test - ./test
-
-* Implement Docker Container(s) and Scripts
-
-Steal stuff from veredi, etc for Docker build, run, etc.
-
-Check in when working.
-
-* Testing
+* ├INFO───┤ Testing
+:LOGBOOK:
+- State "├INFO───┤"  from              [2021-06-12 Sat 16:54]
+:END:
 
 Docker container is accessed at... 'localhost'.
 
@@ -206,3 +185,109 @@ e.g. hello endpoint would be:
 command: ~flask init-db~
 
 Or via docker aliases: doc-init
+* ├DONE───┤ scripts
+CLOSED: [2021-06-12 Sat 16:53]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-12 Sat 16:53]
+:END:
+
+Bash:
+  - [X] Steal the print/debug bash script helpers from my veredi-docker repo.
+  - [X] Implement mockup of:
+    + [X] ./cole
+    + [X] ./test
+
+Python:
+  - Start ./test's __main__.
+    + argparser that can be used for ./cole too.
+      - Copy/paste, no need/time to bother with common lib (right now).
+
+* ├KILLED─┤ Python __main__ files
+CLOSED: [2021-06-12 Sat 16:54]
+:LOGBOOK:
+- State "├KILLED─┤"  from "├DONE───┤"  [2021-06-12 Sat 16:54] \\
+  Switched to Flask.
+- State "├DONE───┤"  from              [2021-06-12 Sat 16:54]
+:END:
+
+- [X] Steal argparse stuff from my 'tryst' repo.
+- [X] Steal HelpfulErrorParser stuff from my 'tryst' repo.
+
+* ├DONE───┤ Implement Docker Container(s) and Scripts
+CLOSED: [2021-06-12 Sat 16:53]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-12 Sat 16:53]
+:END:
+
+Steal stuff from veredi, etc for Docker build, run, etc.
+
+Check in when working.
+
+
+
+* ├CURRENT┤ REST: /collect?cid=<UUID>&d=<UNIX-timestamp>
+:LOGBOOK:
+- State "├CURRENT┤"  from              [2021-06-12 Sat 16:55]
+:END:
+
+Params:
+  - Required:
+    - cid
+  - Optional:
+    - d
+
+Return:
+  - 200 OK
+  - Empty
+
+Store:
+  - UUID, utcnow()'s date.
+    + into the set of uniques per day, or as a row that can be processed as such.
+
+No info about what I'm getting as my UUIDs.
+  - Yay.
+  - Has to be URL-safe though.
+  - How lenient is the Python UUID lib?
+
+
+
+* ├TODO───┤ REST: /daily_uniques?d=<ISO-8601>
+
+Should return the number of unique users seen for the given GMT day.
+
+** What is "Should return"?
+
+  - as... a body of only that number, I'm assuming?
+
+
+* ├TODO───┤ REST: /monthly_uniques?d=<ISO-8601>
+
+Which should return the number of unique users seen in the month prior to and including the given GMT day.
+
+
+** What is "The month prior to and including"?
+
+To start of with, that's not a month.
+
+"The month prior to" and then also "the month including"?
+  - That's between 1.x and 2 months.
+
+"The rolling 30 day window"?
+  - That should have been worded as such.
+    + But nothing is ever worded 100% unambigiously.
+
+"From YYYY-MM-01 to YYYY-MM-DD"?
+  - That's between 0.x and 1 month.
+    + Is closest to an actual calendar month.
+
+
+** What is "Should return"?
+
+  - as... a body of only that number, I'm assuming?
+
+
+* Backend - ./cole
+
+
+
+* Test - ./test
