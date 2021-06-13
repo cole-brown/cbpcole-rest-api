@@ -97,27 +97,6 @@ class TestUsers:
 
         self.todays = (datetime.utcnow().date(), 42)
 
-        # TODO: DELETE?
-        self.expecting = self.calculate_expecting()
-
-    # TODO: DELETE?
-    def calculate_expecting(self) -> Dict[date, int]:
-        '''
-        Calculate total uniques expected given `self.repeats`, `self.users`,
-        and `self.todays`.
-        '''
-        expected = {}
-
-        for day, users in self.visited_repeats():
-            # One unique expected per repeat user.
-            expected[day] = expected.get(day, 0) + len(users)
-
-        for day, uniques in self.visited_uniques(include_today=True):
-            # Uniques for this day, so add all.
-            expected[day] = expected.get(day, 0) + uniques
-
-        return expected
-
     # -------------------------------------------------------------------------
     # Iterate Dates/Users
     # -------------------------------------------------------------------------
@@ -228,20 +207,29 @@ class TestUsers:
 
     def expected(self, start: date, end: Optional[date] = None) -> int:
         '''
-        Returns the number of users in date range: [`start`, `end`).
+        Returns the number of users in date range: [`start`, `end`].
 
-        If `end` is None, returns the number of users in `start` day.
+        - NOTE: Inclusive of `start` and `end` because we are comparing days
+          and expecting all users who visited within:
+            [midnight of start, midnight of day after end)
+          Which, when using just dates, is equal to:
+            [start, end]
+
+        - NOTE: If `end` is None, returns the number of users in:
+            [start, start]
         '''
         if not end:
-            end = start + timedelta(days=1)
+            end = start
 
         total = 0
         for day, count in self.visited_uniques(include_today=True):
-            if start <= day < end:
+            # Inclusive!
+            if start <= day <= end:
                 total += count
 
         for day, users in self.visited_repeats():
-            if start <= day < end:
+            # Inclusive!
+            if start <= day <= end:
                 # Only count each repeated user once for this day.
                 total += len(users)
 

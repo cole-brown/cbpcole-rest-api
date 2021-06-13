@@ -8,10 +8,12 @@ Run tests on cole's '/monthly_uniques' endpoint.
 # Imports
 # -----------------------------------------------------------------------------
 
-from typing import Optional, Type, NewType, Dict, Tuple, TextIO
+from typing import Callable, Dict
 
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime
 import requests
+
+from tester.data import TestUsers
 
 
 # -----------------------------------------------------------------------------
@@ -20,7 +22,7 @@ import requests
 
 
 # -----------------------------------------------------------------------------
-# Code
+# Test Helpers
 # -----------------------------------------------------------------------------
 
 def _params(timestamp: date) -> Dict[str, str]:
@@ -33,41 +35,56 @@ def _params(timestamp: date) -> Dict[str, str]:
     return params
 
 
-def _run_test(url: str,
-              params: Dict[str, str]) -> bool:
+def _run_test(print_fn: Callable,
+              url: str,
+              params: Dict[str, str],
+              expected: str) -> bool:
     '''
     Calls URL w/ params, prints results, and returns pass/fail.
+
+    Compares the response's text field against `expected`.
     '''
     response = requests.get(url, params=params)
-    print()
-    print("─" * 5)
-    print("  params:", params)
-    print(" ", ("[ OK ]" if response.ok else "[FAIL]"), "result:")
-    print("    status:", response.status_code, response.reason)
-    print("    url:   ", response.url)
-    print("    text:  ", response.text)
+    print_fn()
+    print_fn("─" * 5)
+    print_fn("  params:", params)
+    print_fn(" ", ("[ OK ]" if response.ok else "[FAIL]"), "result:")
+    print_fn("    status:       ", response.status_code, response.reason)
+    print_fn("    url:          ", response.url)
+    print_fn("    text:         ", "'" + response.text + "'")
 
+    # Valid HTTP response? Check for expected output.
+    if response.ok:
+        if expected != response.text:
+            print_fn("      != expected:", "'" + expected + "'")
+            return False
+
+    # This represents success now that we're here - failed earlier on
+    # unexpected output if appropriate.
     return response.ok
 
 
-def _test_today(url: str) -> bool:
+def _test_date(print_fn: Callable,
+               url: str,
+               day: date,
+               users: TestUsers) -> bool:
     '''
-    Run tests on timestamp of today.
+    Run tests on `day`'s users.
     '''
-    success = True
+    return _run_test(print_fn,
+                     url,
+                     _params(day),
+                     str(users.expected(
+                         date(day.year, day.month, 1),
+                         day)))
 
-    for _ in range(10):
-        params = _params(datetime.utcnow().date())
-        success = success and _run_test(url, params)
-        # TODO: don't break after 1
-        break
-        if not success:
-            break
+# -----------------------------------------------------------------------------
+# Pubilc API
+# -----------------------------------------------------------------------------
 
-    return success
-
-
-def test(url: str) -> bool:
+def test(print_fn: Callable,
+         url: str,
+         users: TestUsers) -> bool:
     '''
     Calls '/monthly_uniques' endpoint with valid and invalid values,
     checks return code.
@@ -78,36 +95,29 @@ def test(url: str) -> bool:
     # ------------------------------
     # Set-Up
     # ------------------------------
-    try:
-        print("─" * 40)
-        print("/monthly_uniques")
-        print("  url:", url)
-        print("─" * 20)
+    print_fn("─" * 40)
+    print_fn("/monthly_uniques")
+    print_fn("  url:", url)
+    print_fn("─" * 20)
 
-        # ------------------------------
-        # Actual Tests.
-        # ------------------------------
-        # Some without timestamps.
-        print("Today")
-        success = _test_today(url)
-
-        # print()
-        # print("─" * 20)
-        # print("With Timestamps")
-
-        # # Some with timestamps.
-        # if success:
-        #     success = _test_with_time(url)
-
-        # TODO: some way of verifying that the count is correct.
-
-    except:
-        success = False
+    # ------------------------------
+    # Check monthly user reports.
+    # ------------------------------
+    for day in users.dates_of_interest():
+        # Check every day - we have a weird definition of 'month'.
+        #   - Give `day` as yyyy-mm-dd, 'month' is [yyyy-mm-01, yyyy-mm-dd].
+        #   - Well, maybe not weird. But also not a 'month' usually.
+        success = _test_date(print_fn,
+                             url,
+                             day,
+                             users)
+        if not success:
+            break
 
     # ------------------------------
     # Done.
     # ------------------------------
-    print()
-    print("─" * 40)
-    print("[ OK ]" if success else "[FAIL]")
+    print_fn()
+    print_fn("─" * 40)
+    print_fn("[ OK ]" if success else "[FAIL]")
     return success

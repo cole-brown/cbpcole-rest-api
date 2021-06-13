@@ -218,14 +218,30 @@ if __name__ == '__main__':
     # ---
     # /monthly_uniques
     # ---
-    # elif not monthly.test(print_fn, url, users):
-    #     if verbose:
-    #         print()
-    #         print("─" * 20)
-    #     print("[FAILURE]: '/monthly_uniques' tests failed.")
-    #     if verbose:
-    #         print("─" * 40)
+    try:
+        if not success:
+            pass
+        elif not monthly.test(print_fn, url, users):
+            success = False
+            if verbose:
+                print()
+                print("─" * 20)
+            print("[FAILURE]: '/monthly_uniques' tests failed.")
+            if verbose:
+                print("─" * 40)
 
+    except Exception as error:
+        success = False
+        if verbose:
+            print()
+            print("─" * 20)
+        print("[FAILURE]: '/monthly_uniques' tests failed with exception:")
+        print(error)
+        raise
+
+    # ------------------------------
+    # Done: Final Success/Failure
+    # ------------------------------
     if verbose:
         print()
         print("─" * 40)
