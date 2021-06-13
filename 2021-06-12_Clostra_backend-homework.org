@@ -225,8 +225,11 @@ Check in when working.
 
 
 
-* ├CURRENT┤ REST: /collect?cid=<UUID>&d=<UNIX-timestamp>
+* ├DONE───┤ REST: /collect?cid=<UUID>&d=<UNIX-timestamp>
+CLOSED: [2021-06-12 Sat 19:12]
 :LOGBOOK:
+- State "├DONE───┤"  from "├WAITING┤"  [2021-06-12 Sat 19:12]
+- State "├WAITING┤"  from "├CURRENT┤"  [2021-06-12 Sat 18:08]
 - State "├CURRENT┤"  from              [2021-06-12 Sat 16:55]
 :END:
 
@@ -249,18 +252,45 @@ No info about what I'm getting as my UUIDs.
   - Has to be URL-safe though.
   - How lenient is the Python UUID lib?
 
+* ├DONE───┤ TESTING-OF: /collect?cid=<UUID>&d=<UNIX-timestamp>
+CLOSED: [2021-06-12 Sat 19:12]
+:LOGBOOK:
+- State "├DONE───┤"  from "├CURRENT┤"  [2021-06-12 Sat 19:12]
+- State "├CURRENT┤"  from              [2021-06-12 Sat 19:12]
+:END:
 
+Don't bother with Flask's test harness stuff.
 
-* ├TODO───┤ REST: /daily_uniques?d=<ISO-8601>
+I want to hit the real REST API and don't have time to learn the internals of Flask...
+
+Have test script just hit the endpoint with curl or something.
+  - Maybe python.
+  - I'll need valid UUIDs.
+
+* ├DONE───┤ REST: /daily_uniques?d=<ISO-8601>
+CLOSED: [2021-06-12 Sat 20:22]
+:LOGBOOK:
+- State "├DONE───┤"  from "├CURRENT┤"  [2021-06-12 Sat 20:22]
+- State "├CURRENT┤"  from "├TODO───┤"  [2021-06-12 Sat 19:12]
+:END:
 
 Should return the number of unique users seen for the given GMT day.
-
-** What is "Should return"?
-
-  - as... a body of only that number, I'm assuming?
+  - What is "Should return"?
+    + A body of only that number, I'm assuming?
 
 
-* ├TODO───┤ REST: /monthly_uniques?d=<ISO-8601>
+* ├DONE───┤ TESTING-OF: /daily_uniques?d=<ISO-8601>
+CLOSED: [2021-06-12 Sat 20:22]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-12 Sat 20:22]
+:END:
+
+
+* ├DONE───┤ REST: /monthly_uniques?d=<ISO-8601>
+CLOSED: [2021-06-12 Sat 20:22]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-12 Sat 20:22]
+:END:
 
 Which should return the number of unique users seen in the month prior to and including the given GMT day.
 
@@ -280,14 +310,86 @@ To start of with, that's not a month.
   - That's between 0.x and 1 month.
     + Is closest to an actual calendar month.
 
+Assume: "From YYYY-MM-01 to YYYY-MM-DD"
 
 ** What is "Should return"?
 
   - as... a body of only that number, I'm assuming?
 
 
-* Backend - ./cole
+* ├DONE───┤ TESTING-OF: /monthly_uniques?d=<ISO-8601>
+CLOSED: [2021-06-12 Sat 20:22]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-12 Sat 20:22]
+:END:
 
 
+* ├TODO───┤ TESTING-OF: /collect?cid=<UUID>&d=<UNIX-timestamp>: Take 02
 
-* Test - ./test
+Add in some tests for repeated UUIDs.
+
+Make test randomly seed a known amount of users into known UTC yyyy-mm-dd.
+  - Need known values so we can verify in daily/monthly.
+  - A dict of dates to number of users needed?
+    + And pass same dict into daily/monthly tests.
+
+* ├TODO───┤ TESTING-OF: /daily_uniques?d=<ISO-8601>: Take 02
+
+Make sure to test all days with known amounts of users in them.
+  - Verify received value is correct count of users as per collect.
+
+Also test some days with known 0 users.
+
+* ├TODO───┤ TESTING-OF: /monthly_uniques?d=<ISO-8601>: Take 02
+
+Make sure to test all months with known amounts of users in them.
+  - Verify received value is correct count of users as per collect.
+
+Also test some months with known 0 users.
+
+* Clean up
+
+Clean up:
+  - [ ] Find/fix TODOs.
+  - [ ] Instructions or no?
+    + Probably no...
+
+* For beauty's sake:
+
+Enclose test output in lines?
+
+Currently have:
+────────────────────────────────────────
+/monthly_uniques
+  url: http://localhost:8080/monthly_uniques
+────────────────────
+Today
+
+─────
+  params: {'d': '2021-06-13'}
+  [ OK ] result:
+    status: 200 OK
+    url:    http://localhost:8080/monthly_uniques?d=2021-06-13
+    text:   20
+
+────────────────────────────────────────
+[ OK ]
+
+
+Change to:
+┌────────────────────────────────────────
+│ /monthly_uniques
+│   url: http://localhost:8080/monthly_uniques
+├────────────────────
+│ Today
+│
+├─────
+│  params: {'d': '2021-06-13'}
+│  [ OK ] result:
+│    status: 200 OK
+│    url:    http://localhost:8080/monthly_uniques?d=2021-06-13
+│    text:   20
+│
+├────────────────────────────────────────
+│ [ OK ]
+└────────────────────────────────────────

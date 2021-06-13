@@ -18,7 +18,6 @@ from flask import (
     request,
     Response,
     current_app,
-    flash, g, redirect, render_template, session, url_for
 )
 from http import HTTPStatus
 
@@ -51,8 +50,7 @@ def collect():
     # Get params.
     # ------------------------------
     try:
-        cid = request.args.get('cid')
-        uuid = current_app.url_map.converters['uuid'].to_python(cid)
+        cid = uuid.UUID(request.args.get('cid'))
 
         # Parse arg if it was provided or get current time. Trim to just
         # seconds resolution.
@@ -60,23 +58,26 @@ def collect():
             UnixEpoch.parse(
                 request.args.get('d')))
 
+    # TODO: change to 'except:', remove re-raise.
+    # except Exception:
     except:
         success = False
+        # raise
 
-    if not uuid or not unixtime:
+    if not cid or not unixtime:
         success = False
 
     if not success:
         # Quit early. No requirements to indicate failure - just says to return
         # 200/OK with empty body.
         current_app.logger.error("'collect/' failed params parsing: "
-                                 "uuid=%s, d=%s",
-                                 uuid, unixtime)
+                                 "cid=%s, d=%s",
+                                 cid, unixtime)
         return Response('', HTTPStatus.OK, mimetype='text/plain')
 
     current_app.logger.info("'collect/' parsed params successfully: "
-                            "uuid=%s, d=%s",
-                            uuid, unixtime)
+                            "cid=%s, d=%s",
+                            cid, unixtime)
 
     # ------------------------------
     # Save to database.
@@ -84,11 +85,11 @@ def collect():
     db = get_db()
     db.execute(
         'INSERT INTO user (uuid, visited_at) VALUES (?, ?)',
-        (uuid.bytes, )
+        (cid.bytes, unixtime)
     )
     db.commit()
 
     current_app.logger.info("'collect/' saved to database: "
-                            "uuid=%s, d=%s",
-                            uuid, unixtime)
+                            "cid=%s, d=%s",
+                            cid, unixtime)
     return Response('', HTTPStatus.OK, mimetype='text/plain')

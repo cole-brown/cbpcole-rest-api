@@ -61,6 +61,9 @@ def create_app(test_config=None):
     from . import collect
     app.register_blueprint(collect.blueprint)
 
+    from . import uniques
+    app.register_blueprint(uniques.blueprint)
+
     # ------------------------------
     # TODO: TEST ROUTE - delete!
     # ------------------------------

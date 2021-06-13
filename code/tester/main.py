@@ -11,12 +11,11 @@ Run tests on cole.
 
 from typing import Optional, Type, NewType, Dict, Tuple, TextIO
 
-from datetime import date, datetime, time, timedelta
 import argparse
-import math
 import os
-import random
 import sys
+
+from tester import collect, daily, monthly
 
 
 # -----------------------------------------------------------------------------
@@ -92,28 +91,7 @@ def _args() -> argparse.Namespace:
     parser = HelpfulErrorParser(
         description="Run some tests against cole.")
 
-    # TODO: Do I want to steal any of my test selection stuff from veredi's
-    # test runner?
-    #   - I think I just want to always run everything.
-
-    # TODO: what args does test even need?
-    # parser.add_argument("-f", "--format",
-    #                     help=("Python datetime parsing format. See: "
-    #                           "https://docs.python.org/3/library/"
-    #                           "datetime.html#strftime-strptime-behavior"))
-
-    # parser.add_argument("-m", "--min",
-    #                     help=("Time string for minimum datetime "
-    #                           "allowable as output (exclusive)."))
-    # parser.add_argument("-x", "--max",
-    #                     help=("Time string for maximum datetime "
-    #                           "allowable as output (exclusive)."))
-    # parser.add_argument("-y", "--yes",
-    #                     help=("Auto-confirm your willingness to "
-    #                           "possibly trash your repository."))
-
-    # parser.add_argument("time",
-    #                     help="Time string to parse and munge.")
+    # Could do args for url.
 
     # ------------------------------
     # Parse Command Line Args
@@ -132,7 +110,15 @@ if __name__ == '__main__':
     # ------------------------------
     args = _args()
 
+    url = 'http://localhost:8080'
+
     # ------------------------------
     # Run tests.
     # ------------------------------
-    print("TODO: run tests.")
+    # collect.test(url)
+
+    # print()
+    # daily.test(url)
+
+    # print()
+    monthly.test(url)
