@@ -27,7 +27,7 @@ from .time import (
 # Flask Set-Up
 # -----------------------------------------------------------------------------
 
-blueprint = Blueprint('uniques', __name__)
+blueprint: Blueprint = Blueprint('uniques', __name__)
 
 
 # -----------------------------------------------------------------------------

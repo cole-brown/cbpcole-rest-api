@@ -34,13 +34,13 @@ class HelpfulErrorParser(argparse.ArgumentParser):
     def line(self,
              length:  int,
              stream:  TextIO,
-             padding: int = 0):
+             padding: int = 0) -> None:
         '''
         A section separation line built from ASCII/Unicode box character(s).
         '''
         stream.write('─' * (length + padding) + '\n')
 
-    def error(self, message: str):
+    def error(self, message: str) -> None:
         '''
         Print error, then also print usage.
 

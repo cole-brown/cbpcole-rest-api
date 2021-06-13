@@ -26,7 +26,7 @@ from .time import UnixEpoch
 # Flask Set-Up
 # -----------------------------------------------------------------------------
 
-blueprint = Blueprint('collect', __name__)
+blueprint: Blueprint = Blueprint('collect', __name__)
 
 
 # -----------------------------------------------------------------------------
@@ -34,7 +34,7 @@ blueprint = Blueprint('collect', __name__)
 # -----------------------------------------------------------------------------
 
 @blueprint.route('/collect')
-def collect() -> None:
+def collect() -> Response:
     '''
     Endpoint for collecting `cid` (UUIDs of visitors) for datetime utcnow (or
     `d`, if defined).

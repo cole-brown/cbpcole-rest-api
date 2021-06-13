@@ -8,6 +8,8 @@ Flask Application for serving `cole` REST API endpoints.
 # Imports
 # -----------------------------------------------------------------------------
 
+from typing import Mapping
+
 import os
 
 from flask import Flask
@@ -22,7 +24,7 @@ from flask import Flask
 # Code
 # -----------------------------------------------------------------------------
 
-def create_app(test_config=None):
+def create_app(test_config: Mapping = None) -> Flask:
     '''
     Flask application factory method.
     '''
