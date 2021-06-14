@@ -411,55 +411,28 @@ CLOSED: [2021-06-13 Sun 17:10]
 - State "├DONE───┤"  from              [2021-06-13 Sun 17:10]
 :END:
 
-* Clean up
+* ├DONE───┤ Apply Updates (Windows, Docker) and Reboot
+CLOSED: [2021-06-13 Sun 18:04]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-13 Sun 18:04]
+:END:
+
+Yay docker and your snooze button. :|
+
+
+* ├DONE───┤ Clean up
+CLOSED: [2021-06-13 Sun 18:04]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-13 Sun 18:04]
+:END:
 
 Clean up:
   - [X] Instructions or no?
     + Probably some made a README headline to track this.
     + Has its own headline.
 
-  - [ ] Combine functions that are similar?
-
-* Remove company name?
-
-* For beauty's sake:
-
-Enclose test output in lines?
-
-Currently have:
-────────────────────────────────────────
-/monthly_uniques
-  url: http://localhost:8080/monthly_uniques
-────────────────────
-Today
-
-─────
-  params: {'d': '2021-06-13'}
-  [ OK ] result:
-    status: 200 OK
-    url:    http://localhost:8080/monthly_uniques?d=2021-06-13
-    text:   20
-
-────────────────────────────────────────
-[ OK ]
-
-
-Change to:
-┌────────────────────────────────────────
-│ /monthly_uniques
-│   url: http://localhost:8080/monthly_uniques
-├────────────────────
-│ Today
-│
-├─────
-│  params: {'d': '2021-06-13'}
-│  [ OK ] result:
-│    status: 200 OK
-│    url:    http://localhost:8080/monthly_uniques?d=2021-06-13
-│    text:   20
-│
-├────────────────────────────────────────
-│ [ OK ]
-└────────────────────────────────────────
-
-* Push to GitHub private repo
+* ├DONE───┤ Push to GitHub private repo
+CLOSED: [2021-06-13 Sun 18:05]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-13 Sun 18:05]
+:END:

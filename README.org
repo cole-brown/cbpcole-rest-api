@@ -41,8 +41,11 @@ Test script runs on another Ubuntu terminal.
 
 * ASCII box drawing characters used
 
-This character is used in the python files, shell files, and output: "─"
+These characters are used in the python files, shell files, and output:
 
+  ┌─┐
+  │ │
+  └─┘
 
 * Server: 'code/cole'
 
@@ -69,28 +72,34 @@ There's some aliases to make building/running easy.
 
 All the scripts should be path-independent.
 
-In a linux/wsl prompt:
-  > 20.04(focal):user@machine:~ (main)
-  >   └──┤16:35:07├─$> cd /path/to/this/repo
-  > 20.04(focal):user@machine:/path/to/this/repo (main)
-  >   └──┤16:35:11├─$> ./docker/source-for-docker-cmds
-  > Giving you `doc-init` alias...
-  >   Done.
-  > Giving you `doc-cole` alias...
-  >   Done.
-  > Giving you `doc-cmd` alias...
-  >   Done.
-  > Giving you `doc-build` alias...
-  >   Done.
-  >
-  >
-  > How to use is in the README.
-  >
-  > TL;DR:
-  >   1. doc-build
-  >   2. doc-init
-  >   3. doc-cole
-  >   4. Run tests in some other terminal.
+** 0. Source Aliases
+
+In a linux/wsl prompt, run:
+  - ~cd /path/to/this/repo~
+  - ~source ./docker/source-for-docker-cmds~
+
+*** Output:
+20.04(focal):user@machine:~ (main)
+  └──┤16:35:07├─$> cd /path/to/this/repo
+20.04(focal):user@machine:/path/to/this/repo (main)
+  └──┤16:35:11├─$> source ./docker/source-for-docker-cmds
+Giving you `doc-init` alias...
+  Done.
+Giving you `doc-cole` alias...
+  Done.
+Giving you `doc-cmd` alias...
+  Done.
+Giving you `doc-build` alias...
+  Done.
+
+
+How to use is in the README.
+
+TL;DR:
+  1. doc-build
+  2. doc-init
+  3. doc-cole
+  4. Run tests in some other terminal.
 
 
 ** 1. Building
@@ -108,6 +117,37 @@ Which boils down to something like this:
   >     $@ \
   >     ${_build_context_dir}
 
+*** Output:
+
+20.04(focal):user@machine:/path/to/this/repo (main)
+  └──┤17:49:37├─$> doc-build
+────────────────────────────────────────────────────────────────────────────────
+Build 'latest' Docker container for:
+  - cole-clostra-homework
+────────────────────────────────────────────────────────────────────────────────
+
+  ────────────────────────────────────────────────────────
+  Building 'cole-clostra-homework' Docker images...
+  ────────────────────────────────────────────────────────
+    context: /path/to/this/repo
+    extra input args:
+
+    docker build \
+      -t cole-clostra-homework:latest \
+      -f docker/build-files/build.docker.txt \
+       \
+      /path/to/this/repo
+  ────────────────────────────────────────────────────────
+
+<docker output snipped...>
+
+  Done.
+  ────────────────────────────────────────────────────────
+
+────────────────────────────────────────────────────────────────────────────────
+Build completed.
+────────────────────────────────────────────────────────────────────────────────
+
 
 ** 2. Initialize Database
 
@@ -120,6 +160,23 @@ Which boils down to something like this:
   >       -v ${_run_volume_source}:${_run_volume_target} \
   >       ${_cole_name}:latest \
   >       init_server
+
+*** Output:
+
+20.04(focal):user@machine:/path/to/this/repo (main)
+  └──┤17:53:22├─$> doc-init
+Obtaining file:///srv
+Installing collected packages: cole
+  Running setup.py develop for cole
+Successfully installed cole-0.1.20210612
+WARNING: Running pip as root will break packages and permissions. You should install packages reliably by using venv: https://pip.pypa.io/warnings/venv
+
+    ┌───────────────────────────────┐
+    │             cole              │
+    │ (Initialize cole's database.) │
+    └───────────────────────────────┘
+
+Initialized the database.
 
 
 ** 3. Run Server
@@ -143,9 +200,37 @@ Run the ~doc-cole~ alias.
   >       run_server
 
 
+*** Output:
+
+20.04(focal):user@machine:/path/to/this/repo (main)
+  └──┤17:54:19├─$> doc-cole
+Obtaining file:///srv
+Installing collected packages: cole
+  Running setup.py develop for cole
+Successfully installed cole-0.1.20210612
+WARNING: Running pip as root will break packages and permissions. You should install packages reliably by using venv: https://pip.pypa.io/warnings/venv
+
+    ┌─────────────────────────────┐
+    │            cole             │
+    │ (CBPC of Logging End-users) │
+    └─────────────────────────────┘
+
+  host: 0.0.0.0
+  port: 8080
+ * Serving Flask app 'cole' (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://172.17.0.2:8080/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 1234
+<more flask output as tests are run>
+
 ** 4. Run Tests
 
-You'll have your own tests, but my test script can be run via:
+You'll have your own tests, but my test script can be run by invoking 'code/tester/main.py':
   > 20.04(focal):user@machine:/path/to/this/repo/code (main)
   >   └──┤16:32:00├─$> cd /path/to/this/repo/code
   > 20.04(focal):user@machine:/path/to/this/repo/code (main)
@@ -178,6 +263,214 @@ If in verbose mode, much more output:
     + response text
       - expected response text
 
+*** Verbose Output:
+
+Reduced a lot (at "<snip...>" lines) for brevity:
+
+20.04(focal):user@machine:/path/to/this/repo/code (main)
+  └──┤17:59:21├─$> python3 tester/main.py --verbose
+────────────────────────────────────────
+/collect
+  url: http://localhost:8080/collect
+
+────────────────────
+User List (Repeats): With Timestamps
+
+─────
+  params: {'cid': 'daf4ae9affca5200be93c1f07614b97a', 'd': 1620755726}
+    day: 2021-05-11
+    dt:  2021-05-11T17:55:26+00:00
+  [ OK ] result:
+    status: 200 OK
+    url:    http://localhost:8080/collect?cid=daf4ae9affca5200be93c1f07614b97a&d=1620755726
+    text:
+
+<snip...>
+
+────────────────────
+Today's Users: No Timestamps
+
+─────
+  params: {'cid': 'db2f787f0ee246c5b78f979ec82bf4c9'}
+  [ OK ] result:
+    status: 200 OK
+    url:    http://localhost:8080/collect?cid=db2f787f0ee246c5b78f979ec82bf4c9
+    text:
+
+<snip...>
+
+────────────────────
+User List (Uniques): With Timestamps
+
+─────
+  params: {'cid': '9bab87fd33354737a229656f7a0419ce', 'd': 1612156396}
+    day: 2021-02-01
+    dt:  2021-02-01T05:13:16+00:00
+  [ OK ] result:
+    status: 200 OK
+    url:    http://localhost:8080/collect?cid=9bab87fd33354737a229656f7a0419ce&d=1612156396
+    text:
+
+<snip...>
+
+────────────────────────────────────────
+[ OK ]
+────────────────────────────────────────
+/daily_uniques
+  url: http://localhost:8080/daily_uniques
+────────────────────
+
+─────
+  params: {'d': '2021-02-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/daily_uniques?d=2021-02-01
+    text:          '1'
+
+─────
+  params: {'d': '2021-03-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/daily_uniques?d=2021-03-01
+    text:          '1'
+
+─────
+  params: {'d': '2021-04-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/daily_uniques?d=2021-04-01
+    text:          '0'
+
+─────
+  params: {'d': '2021-04-30'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/daily_uniques?d=2021-04-30
+    text:          '0'
+
+<snip...>
+
+─────
+  params: {'d': '2021-06-11'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/daily_uniques?d=2021-06-11
+    text:          '3'
+
+────────────────────────────────────────
+[ OK ]
+────────────────────────────────────────
+/monthly_uniques
+  url: http://localhost:8080/monthly_uniques
+────────────────────
+
+─────
+  params: {'d': '2021-02-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-02-01
+    text:          '1'
+
+─────
+  params: {'d': '2021-03-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-03-01
+    text:          '1'
+
+─────
+  params: {'d': '2021-04-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-04-01
+    text:          '0'
+
+─────
+  params: {'d': '2021-04-30'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-04-30
+    text:          '0'
+
+─────
+  params: {'d': '2021-05-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-05-01
+    text:          '1'
+
+─────
+  params: {'d': '2021-05-02'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-05-02
+    text:          '2'
+
+<snip...>
+
+─────
+  params: {'d': '2021-05-30'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-05-30
+    text:          '22'
+
+─────
+  params: {'d': '2021-05-31'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-05-31
+    text:          '23'
+
+─────
+  params: {'d': '2021-06-01'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-06-01
+    text:          '10'
+
+<snip...>
+
+─────
+  params: {'d': '2021-06-25'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-06-25
+    text:          '110'
+
+─────
+  params: {'d': '2021-06-30'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-06-30
+    text:          '115'
+
+─────
+  params: {'d': '2021-06-14'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-06-14
+    text:          '95'
+
+─────
+  params: {'d': '2021-05-11'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-05-11
+    text:          '18'
+
+─────
+  params: {'d': '2021-06-11'}
+  [ OK ] result:
+    status:        200 OK
+    url:           http://localhost:8080/monthly_uniques?d=2021-06-11
+    text:          '33'
+
+────────────────────────────────────────
+[ OK ]
+
+────────────────────────────────────────
+[SUCCESS]: All tests passed!
 
 ** Bonus alias: ~doc-cmd~
 

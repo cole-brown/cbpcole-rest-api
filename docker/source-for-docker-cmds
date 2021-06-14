@@ -46,7 +46,7 @@ alias doc-cmd="docker run --rm --name $_cole_name -it \
 echo '  Done.'
 
 echo 'Giving you `doc-build` alias...'
-alias doc-build="pushd ${_cole_docker_dir}; ./build.docker.sh; popd"
+alias doc-build="pushd ${_cole_docker_dir} >/dev/null; ./build.docker.sh; popd >/dev/null"
 echo '  Done.'
 
 echo
