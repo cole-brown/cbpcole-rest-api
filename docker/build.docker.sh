@@ -95,7 +95,6 @@ build_container() {
     echo "    extra input args: $@"
     echo
     echo "    docker build \\"
-    echo "      -t ${_container}:latest \\"
     echo "      -t ${_container}:${_version} \\"
     echo "      -f docker/build-files/build.docker.txt \\"
     echo "      $@ \\"
@@ -105,7 +104,6 @@ build_container() {
 
     # Do the actual build.
     docker build \
-        -t ${_container}:latest \
         -t ${_container}:${_version} \
         -f docker/build-files/build.docker.txt \
         $@ \

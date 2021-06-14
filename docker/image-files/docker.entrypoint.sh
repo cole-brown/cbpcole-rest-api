@@ -4,8 +4,9 @@
 # Imports
 #-------------------------------------------------------------------------------
 
-source "${_test_dir}/_debug.sh"
-source "${_test_dir}/_print.sh"
+_this_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+source "${_this_dir}/_debug.sh"
+source "${_this_dir}/_print.sh"
 
 
 #-------------------------------------------------------------------------------
@@ -154,24 +155,6 @@ run_server() {
     popd >/dev/null
 }
 
-
-run_tester() {
-    pushd $CODE_ROOT_DIR >/dev/null
-
-    # ------------------------------
-    # Just comment out if not desired:
-    # ------------------------------
-    local _title="test"
-    local _subtitle='Test `cole` functionality against reqs.'
-    title_unnecessarily_pretty "$_title" "$_subtitle"
-
-    # ------------------------------
-    # Run tests.
-    # ------------------------------
-    /usr/bin/env python3 "test/main.py"
-
-    popd >/dev/null
-}
 
 #-------------------------------------------------------------------------------
 # Script

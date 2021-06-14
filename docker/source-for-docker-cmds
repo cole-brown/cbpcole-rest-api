@@ -38,14 +38,6 @@ alias doc-cole="docker run --rm --name $_cole_name -it \
       run_server"
 echo '  Done.'
 
-echo 'Giving you `doc-test` alias...'
-alias doc-test="docker run --rm --name $_cole_name -it \
-      -v ${_cole_volume_source}:${_cole_volume_target} \
-      -v ${_run_volume_source}:${_run_volume_target} \
-      ${_cole_name}:latest \
-      run_tester"
-echo '  Done.'
-
 echo 'Giving you `doc-cmd` alias...'
 alias doc-cmd="docker run --rm --name $_cole_name -it \
       -v ${_code_volume_source}:${_code_volume_target} \
@@ -53,6 +45,16 @@ alias doc-cmd="docker run --rm --name $_cole_name -it \
       ${_cole_name}:latest"
 echo '  Done.'
 
-echo 'Giving you `doc-build-both` alias...'
-alias doc-build-both="pushd ${_cole_docker_dir}; ./build.docker.sh; popd"
+echo 'Giving you `doc-build` alias...'
+alias doc-build="pushd ${_cole_docker_dir}; ./build.docker.sh; popd"
 echo '  Done.'
+
+echo
+echo
+echo 'How to use is in the README.'
+echo
+echo 'TL;DR:'
+echo '  1. doc-build'
+echo '  2. doc-init'
+echo '  3. doc-cole'
+echo '  4. Run tests in some other terminal.'

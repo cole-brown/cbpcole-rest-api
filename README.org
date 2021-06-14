@@ -1,0 +1,188 @@
+#+TITLE:       README
+#+AUTHOR:      Cole Brown
+#+EMAIL:       code@brown.dev
+#+DATE:        [2021-06-13]
+
+
+* Works on My Machine™
+
+My dev environment is:
+  - Windows 10 Pro
+    + ~winver~:
+      - Version 21H1 (OS Build 19043.1023)
+  - Docker Desktop 3.3.3 (64133)
+    + Engine: 20.10.6
+    + Notary: 0.6.1
+    + Compose: 1.29.1
+    + Credential Helper: 0.6.3
+    + Kubernetes: v1.19.7
+    + Snyk: v1.563.0
+    + Settings:
+      - Use the WSL2 based engine.
+      - Enable integration with my default WSL distro.
+  - WSL v2
+  - Ubuntu 20.04
+    + Default WSL distro.
+  - Windows Terminal 1.8.1521.0
+  - Python 3.8.5
+    + on Ubuntu 20.04
+      - On WSLv2
+        + On Windows 10 host
+          - Loaded from UEFI, which is usually a Linux...
+            + Turtles all the way down from here.
+
+
+Docker build run on Ubuntu terminal.
+
+REST API Server is running in a Docker container on Ubuntu.
+
+Test script runs on another Ubuntu terminal.
+
+
+* ASCII box drawing characters used
+
+This character is used in the python files, shell files, and output: "─"
+
+
+* Server: 'code/cole'
+
+Server is written in Python 3 using Flask for the runtime.
+
+See running [[*3. Run Server][instructions]] for more info.
+
+
+* Tester: 'code/tester'
+
+Tester is written in Python 3 w/ 'requests' module.
+  - Does not use 'unittest' module or other test harness.
+    + I don't think it much value added in a small case like this.
+
+See running [[*4. Run Tests][instructions]] for more info.
+
+
+* Docker: Runtime for Server
+
+I've set up the server to run in a docker container.
+  - Not using a venv.
+
+There's some aliases to make building/running easy.
+
+All the scripts should be path-independent.
+
+In a linux/wsl prompt:
+  > 20.04(focal):user@machine:~ (main)
+  >   └──┤16:35:07├─$> cd /path/to/this/repo
+  > 20.04(focal):user@machine:/path/to/this/repo (main)
+  >   └──┤16:35:11├─$> ./docker/source-for-docker-cmds
+  > Giving you `doc-init` alias...
+  >   Done.
+  > Giving you `doc-cole` alias...
+  >   Done.
+  > Giving you `doc-cmd` alias...
+  >   Done.
+  > Giving you `doc-build` alias...
+  >   Done.
+  >
+  >
+  > How to use is in the README.
+  >
+  > TL;DR:
+  >   1. doc-build
+  >   2. doc-init
+  >   3. doc-cole
+  >   4. Run tests in some other terminal.
+
+
+** 1. Building
+
+Run the ~doc-build~ alias.
+
+Or run this:
+  > cd /path/to/this/repo/docker
+  > ./build.docker.sh
+
+Which boils down to something like this:
+  > docker build \
+  >     -t ${_container}:${_version} \
+  >     -f docker/build-files/build.docker.txt \
+  >     $@ \
+  >     ${_build_context_dir}
+
+
+** 2. Initialize Database
+
+Run the ~doc-init~ alias.
+
+Which boils down to something like this:
+  > docker run --rm --name $_cole_name -it \
+  >       -p 8080:8080 \
+  >       -v ${_code_volume_source}:${_code_volume_target} \
+  >       -v ${_run_volume_source}:${_run_volume_target} \
+  >       ${_cole_name}:latest \
+  >       init_server
+
+
+** 3. Run Server
+
+Run the ~doc-cole~ alias.
+  - Server will run listening to 0.0.0.0:8080.
+    + To change, you'll have to adjust port number in:
+      - docker/source-for-docker-cmds
+      - docker/image-files/docker.entrypoint.sh
+    + You can also change host/port as args to ~doc-cole~:
+      - ~doc-cole 127.0.0.1 80~
+      - ...but I /think/ you need to adjust the '-p' parameter too, which won't be changed by the above command.
+
+
+~doc-cole~ boils down to something like this:
+  > docker run --rm --name $_cole_name -it \
+  >       -p 8080:8080 \
+  >       -v ${_code_volume_source}:${_code_volume_target} \
+  >       -v ${_run_volume_source}:${_run_volume_target} \
+  >       ${_cole_name}:latest \
+  >       run_server
+
+
+** 4. Run Tests
+
+You'll have your own tests, but my test script can be run via:
+  > 20.04(focal):user@machine:/path/to/this/repo/code (main)
+  >   └──┤16:32:00├─$> cd /path/to/this/repo/code
+  > 20.04(focal):user@machine:/path/to/this/repo/code (main)
+  >   └──┤16:32:02├─$> python3 tester/main.py --verbose
+
+Options are:
+  > 20.04(focal):user@machine:/path/to/this/repo/code (main)
+  >   └──┤16:32:02├─$> python3 tester/main.py -h
+  > usage: main.py [-h] [--verbose] [--url URL] [--skip-collect]
+  >
+  > Run some tests against cole.
+  >
+  > optional arguments:
+  >   -h, --help          show this help message and exit
+  >   --verbose, -v       Enable verbose test output.
+  >   --url URL, -u URL   Root URL of the 'cole' REST APIs.
+  >   --skip-collect, -s  Skip the '/collect' endpoint (skip creating database entries).
+
+URL defaults to 'localhost:8080'.
+
+Output is simply "[SUCCESS]" or "[FAILURE]" final output line if not in verbose mode.
+
+If in verbose mode, much more output:
+  - Each time a REST endpoint is hit, prints out:
+    + endpoint
+    + params
+    + "[ OK ]" or "[FAIL]"
+    + status code & name ("200 OK")
+    + url according to response
+    + response text
+      - expected response text
+
+
+** Bonus alias: ~doc-cmd~
+
+Shortcut to running something other than the ~init_server~ or ~run_server~ functions.
+Example:
+  > doc-cmd ls
+  > doc-cmd bash
+

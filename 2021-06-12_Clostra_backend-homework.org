@@ -1,6 +1,6 @@
 #+TITLE:       2021-06-12_Clostra_Backend-Homework
 #+AUTHOR:      Cole Brown
-#+EMAIL:       cole@brown.dev
+#+EMAIL:       code@brown.dev
 #+DATE:        [2021-06-12]
 
 
@@ -381,17 +381,36 @@ CLOSED: [2021-06-13 Sun 15:48]
 :LOGBOOK:
 - State "├DONE───┤"  from              [2021-06-13 Sun 15:48]
 :END:
-* Clean up
+* ├DONE───┤ Clean up
+CLOSED: [2021-06-13 Sun 16:20]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-13 Sun 16:20]
+:END:
 
 Clean up:
   - [X] Find/fix TODOs.
   - [X] Clean up imports in all files.
-  - [ ] Double check defs for propert typing.
-  - [ ] Double check globals, class/instance vars for proper typing.
+  - [X] Double check defs for propert typing.
+  - [X] Double check globals, class/instance vars for proper typing.
+  - [X] Run scripts? - not using; just delete
+  - [X] Docker stuff
 
-* ├TODO───┤ README.org/md
 
-* Push to GitHub private repo
+* ├DONE───┤ README.org/md
+CLOSED: [2021-06-13 Sun 17:10]
+:LOGBOOK:
+- State "├DONE───┤"  from "├TODO───┤"  [2021-06-13 Sun 17:10]
+:END:
+
+Created basic info/instructions.
+
+
+* ├DONE───┤ Push to GitHub private repo
+CLOSED: [2021-06-13 Sun 17:10]
+:LOGBOOK:
+- State "├DONE───┤"  from              [2021-06-13 Sun 17:10]
+:END:
+
 * Clean up
 
 Clean up:
@@ -401,6 +420,7 @@ Clean up:
 
   - [ ] Combine functions that are similar?
 
+* Remove company name?
 
 * For beauty's sake:
 
