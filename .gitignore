@@ -179,6 +179,9 @@ code/setup.py
 # Flask runtime files:
 code/instance/*
 
+# Zip for sending in:
+*.zip
+
 #                                  ---END!---                                  #
 #----------------------- Custom, Actual, For-This-Repo ------------------------#
 #------------------------------------------------------------------------------#
